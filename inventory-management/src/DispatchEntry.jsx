@@ -9,6 +9,7 @@ function DispatchEntry() {
     vehicle: "",
     driver:"",
     route:"",
+    date:"",
     cylinders: [{ serial: "", gasType: "" , qty:"" }]
   });
 
@@ -59,6 +60,7 @@ function DispatchEntry() {
       vehicle: "",
       driver:"",
       route:"",
+      date:"",
       cylinders: [{ serial: "", gasType: "",qty:"" }]
     });
   };
@@ -79,40 +81,74 @@ function DispatchEntry() {
   return (
     <Layout title="Dispatch Entry">
       <form onSubmit={handleSubmit} className="form-card">
-       <div className="row">  
-        <input name="dispatchId" value={formData.dispatchId} onChange={handleChange} placeholder="Dispatch ID" />
-        <input name="customerName" value={formData.customerName} onChange={handleChange} placeholder="Customer Name" />
-        <input name="vehicle" value={formData.vehicle} onChange={handleChange} placeholder="Vehicle Number" />
 
-         </div>
-         <div className="row">
-        <input name="driver" value={formData.driver} onChange={handleChange} placeholder="Driver Name" />
-        <input name="route" value={formData.route} onChange={handleChange} placeholder="Route" />
-      
+  <div className="row">
+    <div className="input-group">
+      <label>Dispatch ID *</label>
+      <input name="dispatchId" value={formData.dispatchId} placeholder="e.g:347856"onChange={handleChange} />
+    </div>
+
+    <div className="input-group">
+      <label>Customer Name *</label>
+      <input name="customerName" value={formData.customerName} placeholder="e.g:Jivin C"onChange={handleChange} />
+    </div>
+  
+    <div className="input-group">
+      <label>Vehicle Number *</label>
+      <input name="vehicle" value={formData.vehicle} placeholder=" e.g:TN 37 BX 9999" onChange={handleChange} />
+    </div>
+  </div>
+    <div className="row">
+    <div className="input-group">
+      <label>Driver Name</label>
+      <input name="driver" value={formData.driver} placeholder="e.g:Hari Senthil"onChange={handleChange} />
+    </div>
+  
+    <div className="input-group">
+      <label>Route</label>
+      <input name="route" value={formData.route} placeholder="e.g: T Nagar" onChange={handleChange} />
+    </div>
+
+        <div className="input-group">
+      <label>Date</label>
+      <input type="date" name="date" value={formData.date} onChange={handleChange} />
+    </div>
+  
+  </div>
+
+  <h4>Cylinder Details</h4>
+
+  {formData.cylinders.map((cyl, i) => (
+    <div className="row" key={i}>
+
+      <div className="input-group">
+        <label>Serial Number *</label>
+        <input name="serial" value={cyl.serial} placeholder="e.g: AX23BG456" onChange={(e) => handleCylinderChange(i, e)}/>
       </div>
-        {formData.cylinders.map((cyl, i) => (
-          <div key={i}>
-             <div className="row">
-            <input name="serial" value={cyl.serial} onChange={(e) => handleCylinderChange(i, e)} placeholder="Serial Number" />
-            <select name="gasType" value={cyl.gasType} placeholder="Gas Type" onChange={(e) => handleCylinderChange(i, e)}>
-               <option value="">Select Gas Type</option> 
-               <option value="O2">Oxygen</option>
-                <option value="N2">Nitorgen</option> 
-                <option value="Co2">Carbon Dioxide</option> 
-                </select>  
-            <input name="qty" value={formData.qty} onChange={handleChange} placeholder="Quantity" />
-        </div>
-          </div>
-        ))}
 
-        <button type="button" onClick={addCylinder}>Add Cylinder</button>
-        <button type="submit">{editIndex !== null ? "Update" : "Submit"}</button>
-      </form>
+      <div className="input-group">
+        <label>Gas Type *</label>
+        <select name="gasType" value={cyl.gasType} onChange={(e) => handleCylinderChange(i, e)}>
+          <option value="">Select</option>
+          <option value="O2">Oxygen</option>
+          <option value="N2">Nitrogen</option>
+          <option value="CO2">Carbon Dioxide</option>
+        </select>
+      </div>
+
+    </div>
+  ))}
+
+  <button type="button" onClick={addCylinder}>Add Cylinder</button>
+  <button type="submit">{editIndex !== null ? "Update" : "Submit"}</button>
+
+</form>
 
       <table>
         <thead>
           <tr>
             <th>Serial</th>
+            <th>Date</th>
             <th>ID</th>
             <th>Customer</th>
             <th>Vehicle</th>
@@ -127,6 +163,7 @@ function DispatchEntry() {
             e.cylinders.map((c, j) => (
               <tr key={`${i}-${j}`}>
                 <td>{c.serial}</td>
+                <td>{c.date}</td>
                 <td>{e.dispatchId}</td>
                 <td>{e.customerName}</td>
                 <td>{e.vehicle}</td>

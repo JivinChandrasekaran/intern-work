@@ -57,15 +57,21 @@ function LocationTracker() {
   return (
     <Layout title="Location Tracker">
 
-      <input
-        value={serial}
-        onChange={(e) => setSerial(e.target.value)}
-        placeholder="Enter Serial Number"
-      />
+<div className="form-card">
 
-      <button onClick={handleSearch}>
-        {editIndex !== null ? "Update" : "Search"}
-      </button>
+  <div className="row">
+    <div className="input-group">
+      <label>Serial Number</label>
+      <input value={serial} placeholder="e.g: ADX346982BG" onChange={(e) => setSerial(e.target.value)}
+      />
+    </div>
+  </div>
+
+  <button onClick={handleSearch}>
+    {editIndex !== null ? "Update" : "Search"}
+  </button>
+
+</div>
 
       <table>
         <thead>

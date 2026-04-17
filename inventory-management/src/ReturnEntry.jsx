@@ -77,7 +77,7 @@ function ReturnEntry() {
     setEntries(entries.filter((_, index) => index !== i));
   };
 
-  // 🔥 EDIT
+  
   const handleEdit = (i) => {
     setFormData(entries[i]);
     setEditIndex(i);
@@ -85,28 +85,51 @@ function ReturnEntry() {
   return (
     <Layout title="Return Entry">
 
-      <form className="form-card" onSubmit={handleSubmit}>
-        <div className="row">
-          <input name="returnId" placeholder="Return ID" onChange={handleChange} />
-          <input name="customerName" placeholder="Customer Name" onChange={handleChange} />
-          <input type="date" name="date" placeholder="date" onChange={handleChange} />
-        </div>
+<form onSubmit={handleSubmit} className="form-card">
 
-        {formData.cylinders.map((cyl, i) => (
-          <div className="row" key={i}>
-            <input name="serial" placeholder="Serial Number" onChange={(e) => handleCylinderChange(i, e)} />
-            <select name="condition" onChange={(e) => handleCylinderChange(i, e)}>
-              <option>Good</option>
-              <option>Damaged</option>
-            </select>
-          </div>
-        ))}
+  <div className="row">
+    <div className="input-group">
+      <label>Return ID</label>
+      <input name="returnId" value={formData.returnId} placeholder="e.g: 349865"onChange={handleChange} />
+    </div>
 
-        <button type="button" className="btn" onClick={addCylinder}>Add Cylinder</button>
-        <button type="submit">
-          {editIndex !== null ? "Update" : "Submit"}
-        </button>
-      </form>
+    <div className="input-group">
+      <label>Customer Name</label>
+      <input name="customerName" value={formData.customerName} placeholder="e.g: Rajini"onChange={handleChange} />
+    </div>
+
+    <div className="input-group">
+      <label>Date</label>
+      <input type="date" name="date" value={formData.date} onChange={handleChange} />
+    </div>
+  </div>
+
+  <h4>Cylinders</h4>
+
+  {formData.cylinders.map((cyl, i) => (
+    <div className="row" key={i}>
+
+      <div className="input-group">
+        <label>Serial Number</label>
+        <input name="serial" value={cyl.serial} placeholder="e.g: DE345BXC" onChange={(e) => handleCylinderChange(i, e)}/>
+      </div>
+
+      <div className="input-group">
+        <label>Condition</label>
+        <select name="condition" value={cyl.condition} onChange={(e) => handleCylinderChange(i, e)}
+        >
+          <option>Good</option>
+          <option>Damaged</option>
+        </select>
+      </div>
+
+    </div>
+  ))}
+
+  <button type="button" onClick={addCylinder}>Add Cylinder</button>
+  <button type="submit">{editIndex !== null ? "Update" : "Submit"}</button>
+
+</form>
 
       <table>
         <thead>
@@ -130,8 +153,6 @@ function ReturnEntry() {
                 <td>{e.customerName}</td>
                 <td>{c.condition}</td>
                 <td>{e.date}</td>
-                
-
                 <td>
                   <button className="edit" onClick={() => handleEdit(i)}>Edit</button>
                   <button className="delete" onClick={() => handleDelete(i)}>Delete</button>
